@@ -1,16 +1,13 @@
 const webServer = require('./services/web-server.js');
+const database = require('./services/database.js');
 const dbConfig = require('./config/database.js');
 const defaultThreadPoolSize = 4;
+
 process.env.UV_THREADPOOL_SIZE = dbConfig.hrPool.poolMax + defaultThreadPoolSize;
-const database = require('./services/database.js');
-
-  
-
-
  
 async function startup() {
   console.log('Starting application');
-   try {
+  try {
     console.log('Initializing database module');
  
     await database.initialize(); 
@@ -19,6 +16,8 @@ async function startup() {
  
     process.exit(1); // Non-zero failure code
   }
+ 
+ 
   try {
     console.log('Initializing web server module');
  
@@ -46,10 +45,8 @@ async function shutdown(e) {
  
     err = err || e;
   }
- 
-  console.log('Exiting process');
   
- try {
+  try {
     console.log('Closing database module');
  
     await database.close(); 
@@ -58,15 +55,15 @@ async function shutdown(e) {
  
     err = err || e;
   }
-  
+ 
+  console.log('Exiting process');
+ 
   if (err) {
     process.exit(1); // Non-zero failure code
   } else {
     process.exit(0);
   }
 }
- 
- 
  
 process.on('SIGTERM', () => {
   console.log('Received SIGTERM');

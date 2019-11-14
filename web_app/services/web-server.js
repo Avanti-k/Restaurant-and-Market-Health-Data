@@ -1,9 +1,9 @@
-const morgan = require('morgan');
 const http = require('http');
 const express = require('express');
+const morgan = require('morgan');
 const webServerConfig = require('../config/web-server.js');
-const router = require('./router.js');
 const database = require('./database.js');
+const router = require('./router.js');
  
 let httpServer;
  
@@ -11,9 +11,9 @@ function initialize() {
   return new Promise((resolve, reject) => {
     const app = express();
     httpServer = http.createServer(app);
-    app.use(morgan('combined'));
-	app.use(express.static('pages'));
-    app.use('/api', router);
+	 app.use(morgan('combined'));
+	 app.use(express.static('pages'));
+     app.use('/api', router);
  
     httpServer.listen(webServerConfig.port)
       .on('listening', () => {
