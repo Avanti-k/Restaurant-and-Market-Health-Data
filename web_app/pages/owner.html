@@ -1,0 +1,23 @@
+<!doctype html>
+<html>
+<head>
+<title>CITY</title>
+</head>
+<body>
+<script src="jquery.min.js"></script>
+<script type="text/javascript">
+$(document).ready(() => {
+	$.ajax({
+		url:'api/city/',
+		type:'GET',
+		dataType:'json',
+		success:(data) => {
+			$('#display').html('Ten random city: ' +JSON.stringify(data));
+		}
+	});
+});
+</script>
+
+<div id="display"></div>
+</body>
+</html>
