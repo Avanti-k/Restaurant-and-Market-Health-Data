@@ -14,6 +14,10 @@ const owner_total_inspections = require('../controllers/owner_total_inspections.
 const owner_main_violation_graph = require('../controllers/owner_main_violation_graph.js'); 
 const owner_main_avg_graph = require('../controllers/owner_main_avg_graph.js'); 
 const owner_pie_violations = require('../controllers/owner_pie_violations.js'); 
+const customer_top_restaurants = require('../controllers/customer_top_restaurants.js');
+
+
+router.route('/customer_top_restaurants').get(customer_top_restaurants.get);
 
 router.route('/owner_attr/:o_id?')
   .get(owner_attr.get);
