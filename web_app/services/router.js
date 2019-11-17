@@ -15,10 +15,19 @@ const owner_main_violation_graph = require('../controllers/owner_main_violation_
 const owner_main_avg_graph = require('../controllers/owner_main_avg_graph.js'); 
 const owner_pie_violations = require('../controllers/owner_pie_violations.js'); 
 const customer_top_restaurants = require('../controllers/customer_top_restaurants.js');
+const customer_top_markets = require('../controllers/customer_top_markets.js');
+const customer_top_neighbourhoods = require('../controllers/customer_top_neighbourhoods.js');
 
+router.route('/customer_top_restaurants')
+	.get(customer_top_restaurants.get);
 
-router.route('/customer_top_restaurants').get(customer_top_restaurants.get);
+router.route('/customer_top_markets')
+	.get(customer_top_markets.get);
 
+router.route('/customer_top_neighbourhoods')
+	.get(customer_top_neighbourhoods.get);
+
+/*
 router.route('/owner_attr/:o_id?')
   .get(owner_attr.get);
   
@@ -62,5 +71,5 @@ router.route('/owner_main_violation_graph/:o_id?')
   router.route('/owner_pie_violations/:o_id?')
   .get(owner_pie_violations.get);
   
-  
+  */
 module.exports = router;

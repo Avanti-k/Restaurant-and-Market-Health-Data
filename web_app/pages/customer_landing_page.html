@@ -33,18 +33,93 @@
 <script src="jquery.min.js"></script>
 <script type="text/javascript">
 var o_id = "OW0001414";
+
+$(document).ready(() => {
+	$.ajax({
+		url:'api/customer_top_markets',
+		type:'GET',
+		dataType:'json',
+		success:(data) => {
+			//console.log(data);
+			//$('#count_avg_owners').html(JSON.stringify(data));
+				
+			var html = "";
+			 for(i = 0; i < data.length; i++)
+			 {
+				//json_fid = JSON.parse(JSON.stringify(data[i]));
+				//console.log("Markets");
+				//console.log(JSON.stringify(data[i]));
+			 	json_fid = JSON.parse(JSON.stringify(data[i]));
+				/*console.log("here");
+				console.log(json_fid);
+				console.log("Json Fid = " + json_fid.FACILITY_ID);*/
+				html += "<tr><td>" + json_fid.FACILITY_ID + "</td><td>" + json_fid.NAME + "</td></tr>";
+				
+			 }
+			 $('#top_mkt_list').append(html);
+			
+		}
+	});
+});
+
 $(document).ready(() => {
 	$.ajax({
 		url:'api/customer_top_restaurants',
 		type:'GET',
 		dataType:'json',
 		success:(data) => {
-			console.log(data);
-			$('#count_avg_owners').html(JSON.stringify(data));
+			//console.log(data);
+			//$('#count_avg_owners').html(JSON.stringify(data));
+				
+			var html = "";
+			 for(i = 0; i < data.length; i++)
+			 {
+				//json_fid = JSON.parse(JSON.stringify(data[i]));
+				//console.log("Restaurants");
+				//console.log(JSON.stringify(data[i]));
+			 	json_fid = JSON.parse(JSON.stringify(data[i]));
+				/*console.log("here");
+				console.log(json_fid);
+				console.log("Json Fid = " + json_fid.FACILITY_ID);*/
+				html += "<tr><td>" + json_fid.FACILITY_ID + "</td><td>" + json_fid.NAME + "</td></tr>";
+				
+			 }
+			 $('#top_rest_list').append(html);
 			
 		}
 	});
 });
+
+$(document).ready(() => {
+	$.ajax({
+		url:'api/customer_top_neighbourhoods',
+		type:'GET',
+		dataType:'json',
+		success:(data) => {
+			console.log("NB data");
+			console.log(data);
+			//$('#count_avg_owners').html(JSON.stringify(data));
+				
+			var html = "";
+			 for(i = 0; i < data.length; i++)
+			 {
+				//json_fid = JSON.parse(JSON.stringify(data[i]));
+				console.log("Neighbourhoods");
+				console.log(JSON.stringify(data[i]));
+			 	json_fid = JSON.parse(JSON.stringify(data[i]));
+				/*console.log("here");
+				console.log(json_fid);
+				console.log("Json Fid = " + json_fid.FACILITY_ID);*/
+				html += "<tr><td>" + json_fid.STREET + "</td><td>" + json_fid.ZIP + "</td></tr>";
+				
+			 }
+			 $('#top_nb_list').append(html);
+			
+		}
+	});
+});
+
+
 /*
 $(document).ready(() => {
 	$.ajax({
@@ -151,16 +226,17 @@ $(document).ready(() => {
                     </li>
                     
                    
-
+					<!--
                     </li>
-                    <h3 class="menu-title">Facilities</h3><!-- /.menu-title -->
-                    <li class="menu-item-has-children dropdown">
+                    <!-- <h3 class="menu-title">Facilities</h3><!-- /.menu-title -->
+                    <!-- <li class="menu-item-has-children dropdown">
 					<font color="white">
 					<div id="facility_list">
-					</div></font>
+					</div></font> 
                         
                         
                     </li>
+                    </li>-->
                 </ul>
             </div><!-- /.navbar-collapse -->
         </nav>
@@ -206,86 +282,36 @@ $(document).ready(() => {
         
 
         <div class="content mt-3">
-
-            
-
-            <div class="col-sm-6 col-lg-3">
+             <div class="col-sm-6 col-lg-3"> 
                 <div class="card text-white bg-flat-color-1">
                     <div class="card-body pb-0">
 					 <h4 class="mb-0">
-                        <div id="count_avg_owners">
-                       
-                            <span  class="count"></span>
-                        
-						</div>
-						</h4>
-                        <p class="text-light">Average Score</p>
-
-                        <div class="chart-wrapper px-0" style="height:80px;" height="80">
-       
-	   <canvas id="widgetChart1"></canvas>
-                        </div>
-
-                    </div>
-
-                </div>
-            </div>
-            <!--/.col-->
-
-            <div class="col-sm-6 col-lg-3">
-                <div class="card text-white bg-flat-color-2">
-                    <div class="card-body pb-0">
-                        
-                        <h4 class="mb-0">
-						<div id="owner_rank">
-                            <span class="count"></span>
-							</div>
-                        </h4>
-                        <p class="text-light">Rank </p>
-
-                        <div class="chart-wrapper px-0" style="height:80px;" height="80">
-                            <canvas id="widgetChart2"></canvas>
-                        </div>
-
+						<h4>Top 3 Food Markets</h4>
+						<table id="top_mkt_list">
+							<font color="white">
+							<th>ID</th>
+							<th> NAME </th>
+							</font>
+                        </table>
+					</h4>
                     </div>
                 </div>
             </div>
             <!--/.col-->
-
-            <div class="col-sm-6 col-lg-3">
-                <div class="card text-white bg-flat-color-3">
-                    <div class="card-body pb-0">
-                        
-                        <h4 class="mb-0">
-						<div id="count_avg_owner_violations">
-                            <span class="count"></span>
-							</div>
-                        </h4>
-                        <p class="text-light">Violations per quarter</p>
-
-                    </div>
-
-                    <div class="chart-wrapper px-0" style="height:80px;" height="80">
-                        <canvas id="widgetChart3"></canvas>
-                    </div>
-                </div>
-            </div>
-            <!--/.col-->
-
+			
             <div class="col-sm-6 col-lg-3">
                 <div class="card text-white bg-flat-color-4">
                     <div class="card-body pb-0">
                         
                         <h4 class="mb-0">
-						<div id="count_owner_crt_violations">
-                            <span class="count"></span>
-							</div>
-                        </h4>
-                        <p class="text-light">Total Critical violations</p>
-
-                        <div class="chart-wrapper px-3" style="height:80px;" height="80">
-                            <canvas id="widgetChart4"></canvas>
-                        </div>
+						<h4>Top 3 Restaurants</h4>
+						<table id="top_rest_list">
+							<font color="white">
+							<th>ID</th>
+							<th> NAME </th>
+							</font>
+                        </table>
+					</h4>
 
                     </div>
                 </div>
@@ -293,95 +319,23 @@ $(document).ready(() => {
             <!--/.col-->
 
 
-
-            <div class="col-xl-6">
-                <div class="card">
-                    <div class="card-body">
-                        <div class="row">
-                            <div class="col-sm-4">
-                                <h4 class="card-title mb-0">Analysis Chart</h4>
-                                <div class="small text-muted">Metrics Averaged</div>
-                            </div>
-                            <!--/.col-->
-                            <div class="col-sm-8 hidden-sm-down">
-                               
-                                <div class="btn-toolbar float-right" role="toolbar" aria-label="Toolbar with button groups">
-                                    <div class="btn-group mr-3" data-toggle="buttons" aria-label="First group">
-                                        <label class="btn btn-outline-secondary active">
-                                            <input type="radio" name="options" id="option1" value="option1" checked=""> Score
-                                        </label>
-                                        <label class="btn btn-outline-secondary ">
-                                            <input type="radio" name="options" id="option2" value="option2" > Violations
-                                        </label>
-                                        <!<label class="btn btn-outline-secondary">
-                                            <!<input type="radio" name="options" id="option3" value="option3"><! Inspections
-                                        <!</label>
-                                    </div>
-                                </div>
-                            </div>
-                            <!--/.col-->
-
-
-                        </div>
-                        <!--/.row-->
-                        <div class="chart-wrapper mt-4">
-                            <canvas id="trafficChart" style="height:200px;" height="200"></canvas>
-                        </div>
-
-                    </div>
-                   
-                </div>
-            </div>
-
-            
-
-            <div class="col-xl-3 col-lg-6">
-                <div class="card">
-                    <div class="card-body">
-                        <div class="stat-widget-one">
-                            <div class="stat-icon dib"><i class="ti-money text-success border-success"></i></div>
-                            <div class="stat-content dib">
-                                <div class="stat-text">Total Inspections</div>
-                                <div class="stat-digit" id="total_inspections">0</div>
-                            </div>
-                        </div>
+            <div class="col-sm-6 col-lg-3"> 
+                <div class="card text-white bg-flat-color-1">
+                    <div class="card-body pb-0">
+					 <h4 class="mb-0">
+						<h4>Top 3 Neighbourhoods</h4>
+							<table id="top_nb_list">
+								<font color="white">
+									<th>STREET</th>
+									<th> ZIP CODE </th>
+								</font>
+							</table>
+					</h4>
+                            
                     </div>
                 </div>
             </div>
-
-
-            <div class="col-xl-3 col-lg-6">
-                <div class="card">
-                    <div class="card-body">
-                        <div class="stat-widget-one">
-                            <div class="stat-icon dib"><i class="ti-user text-primary border-primary"></i></div>
-                            <div class="stat-content dib">
-                                <div class="stat-text">Grade</div>
-                                <div class="stat-digit" id="owner_grade">-</div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            
-
            
-
-			<div class="col-lg-6">
-                        <div class="card">
-						<div class="card-header">
-                        <h4>Facilities violation count</h4>
-                    </div>
-                            <div class="card-body" style="height: 286px;">
-                                <!<h4 class="mb-3"><!Pie Chart </h4>
-                                <canvas id="pieChart" ></canvas>
-                            </div>
-                        </div>
-                    </div><!-- /# column -->
-
-
-			 
 
 
         </div> <!-- .content -->
