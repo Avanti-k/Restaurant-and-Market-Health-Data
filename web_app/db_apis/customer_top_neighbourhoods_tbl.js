@@ -1,14 +1,14 @@
 const database = require('../services/database.js');
- 
-const baseQuery = 
+
+const baseQuery =
  `
   `;
- 
+
 async function find(context) {
   let query = baseQuery;
 
     query = `Select * from Address
-where address_id in 
+where address_id in
 (
 select address_id from
 (
@@ -20,10 +20,10 @@ select address_id from
     FETCH FIRST 3 rows only
 ) c
 )`;
-	
+
   const result = await database.simpleExecute(query);
 
   return result.rows;
 }
- 
+
 module.exports.find = find;

@@ -18,7 +18,7 @@
 
     <link rel="stylesheet" href="vendors/bootstrap/dist/css/bootstrap.min.css">
 
- 
+
     <!<link rel="stylesheet" href="vendors/jqvmap/dist/jqvmap.min.css">
 
 
@@ -34,6 +34,28 @@
 <script type="text/javascript">
 var o_id = "OW0001414";
 
+function renderMegaTable(event) {
+
+  console.log("CLicked row"+ event.data.tid);
+  index = event.data.tid;
+  //val = JSON.parse(JSON.stringify(ajaxResult[0][index]));
+  val = JSON.parse(JSON.stringify(event.data.obj[0][index]));
+   console.log(val);
+  console.log("Clicked valuename = " + val.NAME);
+  var html_str = "<font color='white'><th>Name</th><th> Address </th><th> Grade </th><th> Score </th></font>";
+  html_str += "<div><tr><td>"+ val.NAME+"</td><td>"+ val.ADDRESS_ID + "</td><td>" + val.GRADE + "</td><td>" + val.SCORE + "</td></tr>";
+  $("#mega_table").html(html_str);
+}
+
+
+function mkt_bind_on_click_functions()
+{
+  for( i = 0; i < MktAjaxResult[0].length;i ++)
+  {
+    $("#mkt-tbl-tr"+i).on("click", {tid:i, obj : MktAjaxResult}, renderMegaTable);
+  }
+}
+var MktAjaxResult=[];
 $(document).ready(() => {
 	$.ajax({
 		url:'api/customer_top_markets',
@@ -42,7 +64,7 @@ $(document).ready(() => {
 		success:(data) => {
 			//console.log(data);
 			//$('#count_avg_owners').html(JSON.stringify(data));
-				
+      MktAjaxResult.push(data);
 			var html = "";
 			 for(i = 0; i < data.length; i++)
 			 {
@@ -53,15 +75,27 @@ $(document).ready(() => {
 				/*console.log("here");
 				console.log(json_fid);
 				console.log("Json Fid = " + json_fid.FACILITY_ID);*/
-				html += "<tr><td>" + json_fid.FACILITY_ID + "</td><td>" + json_fid.NAME + "</td></tr>";
-				
+				//html += "<div><tr><td>" + json_fid.FACILITY_ID + "</td><td>" + json_fid.NAME + "</td></tr></div>";
+        html += "<div id ='mkt-tbl-tr"+i+"'><tr><td>" + json_fid.FACILITY_ID + "</td><td>" + json_fid.NAME + "</td></tr></div>";
+
+
 			 }
 			 $('#top_mkt_list').append(html);
-			
+       mkt_bind_on_click_functions(MktAjaxResult);
+
 		}
 	});
 });
 
+
+function rest_bind_on_click_functions()
+{
+  for( i = 0; i < RestAjaxResult[0].length;i ++)
+  {
+    $("#rest-tbl-tr"+i).on("click", {tid:i, obj : RestAjaxResult}, renderMegaTable);
+  }
+}
+var RestAjaxResult=[];
 $(document).ready(() => {
 	$.ajax({
 		url:'api/customer_top_restaurants',
@@ -70,7 +104,7 @@ $(document).ready(() => {
 		success:(data) => {
 			//console.log(data);
 			//$('#count_avg_owners').html(JSON.stringify(data));
-				
+      RestAjaxResult.push(data);
 			var html = "";
 			 for(i = 0; i < data.length; i++)
 			 {
@@ -81,11 +115,13 @@ $(document).ready(() => {
 				/*console.log("here");
 				console.log(json_fid);
 				console.log("Json Fid = " + json_fid.FACILITY_ID);*/
-				html += "<tr><td>" + json_fid.FACILITY_ID + "</td><td>" + json_fid.NAME + "</td></tr>";
-				
+				html += "<div id ='rest-tbl-tr"+i+"'><tr><td>" + json_fid.FACILITY_ID + "</td><td>" + json_fid.NAME + "</td></tr></div>";
+
 			 }
 			 $('#top_rest_list').append(html);
-			
+       console.log("Ajax result");
+       console.log(RestAjaxResult);
+      rest_bind_on_click_functions();
 		}
 	});
 });
@@ -96,25 +132,25 @@ $(document).ready(() => {
 		type:'GET',
 		dataType:'json',
 		success:(data) => {
-			console.log("NB data");
-			console.log(data);
+			//console.log("NB data");
+			//console.log(data);
 			//$('#count_avg_owners').html(JSON.stringify(data));
-				
+
 			var html = "";
 			 for(i = 0; i < data.length; i++)
 			 {
 				//json_fid = JSON.parse(JSON.stringify(data[i]));
-				console.log("Neighbourhoods");
-				console.log(JSON.stringify(data[i]));
+				//onsole.log("Neighbourhoods");
+				//console.log(JSON.stringify(data[i]));
 			 	json_fid = JSON.parse(JSON.stringify(data[i]));
 				/*console.log("here");
 				console.log(json_fid);
 				console.log("Json Fid = " + json_fid.FACILITY_ID);*/
 				html += "<tr><td>" + json_fid.STREET + "</td><td>" + json_fid.ZIP + "</td></tr>";
-				
+
 			 }
 			 $('#top_nb_list').append(html);
-			
+
 		}
 	});
 });
@@ -174,19 +210,19 @@ $(document).ready(() => {
 		var i;
 		var json_mth;
 		var qtr_array=[];
-$("facility_list").append("<ul></ul>");		
+$("facility_list").append("<ul></ul>");
 			 for(i = 0; i < data.length; i++)
 			 {
 			  json_mth = JSON.parse(JSON.stringify(data[i]));
-			 
+
 			 qtr_array[i] = json_mth.f_name;
 			 var li = "<font color='white'><li><a href='#'>";
     $("ul").append(li.concat(qtr_array[i]))
-			 
 
-			 
+
+
 			 }
-			
+
 		}
 	});
 });
@@ -215,7 +251,7 @@ $(document).ready(() => {
                 </button>
 				<br><br><br><br><br>
                <a href="#"><font color="white"><div id="owner_name"> Customer Name</div></font></a>
-			   
+
             </div>
 
             <div id="main-menu" class="main-menu collapse navbar-collapse">
@@ -224,17 +260,17 @@ $(document).ready(() => {
                         <a href="index.html"> <i class="menu-icon fa fa-dashboard"></i><!Dashboard >
 						</a>
                     </li>
-                    
-                   
+
+
 					<!--
                     </li>
                     <!-- <h3 class="menu-title">Facilities</h3><!-- /.menu-title -->
                     <!-- <li class="menu-item-has-children dropdown">
 					<font color="white">
 					<div id="facility_list">
-					</div></font> 
-                        
-                        
+					</div></font>
+
+
                     </li>
                     </li>-->
                 </ul>
@@ -254,8 +290,8 @@ $(document).ready(() => {
             <div class="header-menu">
 
                 <div class="col-sm-7">
-                   
-                    
+
+
                 </div>
 
                 <div class="col-sm-5">
@@ -263,7 +299,7 @@ $(document).ready(() => {
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             <img class="user-avatar rounded-circle" src="images/admin.png" alt="User Avatar">
                         </a>
-						
+
                         <div class="user-menu dropdown-menu">
                             <a class="nav-link" href="owner_landing_page.html"><i class="fa fa-user"></i> My Dashboard</a>
 
@@ -271,7 +307,7 @@ $(document).ready(() => {
                         </div>
                     </div>
 
-                   
+
 
                 </div>
             </div>
@@ -279,10 +315,10 @@ $(document).ready(() => {
         </header><!-- /header -->
         <!-- Header-->
 
-        
+
 
         <div class="content mt-3">
-             <div class="col-sm-6 col-lg-3"> 
+             <div class="col-sm-6 col-lg-3">
                 <div class="card text-white bg-flat-color-1">
                     <div class="card-body pb-0">
 					 <h4 class="mb-0">
@@ -298,11 +334,11 @@ $(document).ready(() => {
                 </div>
             </div>
             <!--/.col-->
-			
+
             <div class="col-sm-6 col-lg-3">
                 <div class="card text-white bg-flat-color-4">
                     <div class="card-body pb-0">
-                        
+
                         <h4 class="mb-0">
 						<h4>Top 3 Restaurants</h4>
 						<table id="top_rest_list">
@@ -319,7 +355,7 @@ $(document).ready(() => {
             <!--/.col-->
 
 
-            <div class="col-sm-6 col-lg-3"> 
+            <div class="col-sm-6 col-lg-3">
                 <div class="card text-white bg-flat-color-1">
                     <div class="card-body pb-0">
 					 <h4 class="mb-0">
@@ -331,15 +367,24 @@ $(document).ready(() => {
 								</font>
 							</table>
 					</h4>
-                            
+
                     </div>
                 </div>
             </div>
-           
+
+    <div >
+     <h4 class="mb-0">
+      <h4>Mega table</h4>
+        <table id="mega_table">
+
+        </table>
+    </h4>
+    </div>
+
 
 
         </div> <!-- .content -->
-		 
+
     </div><!-- /#right-panel -->
 
     <!-- Right Panel -->
@@ -349,7 +394,7 @@ $(document).ready(() => {
     <script src="vendors/bootstrap/dist/js/bootstrap.min.js"></script>
     <script src="assets/js/main.js"></script>
 
-	
+
     <script src="vendors/chart.js/dist/Chart.bundle.min.js"></script>
 	<script src="assets/js/init-scripts/chart-js/chartjs-init.js"></script>
     <script src="assets/js/dashboard.js"></script>
