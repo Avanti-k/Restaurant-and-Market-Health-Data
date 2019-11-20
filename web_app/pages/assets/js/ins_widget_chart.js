@@ -18,7 +18,7 @@ var score_array = [];
     });
 	
 $.ajax({
-		url:'api/avg_owner_score_graph/'+o_id+'/',
+		url:'api/ins_count_graph/'+emp_id+'/',
 		type:'GET',
 		dataType:'json',
 		success:(data) => {
@@ -30,11 +30,11 @@ $.ajax({
 			 {
 			 json_mth = JSON.parse(JSON.stringify(data[i]));
 			 mth_array[i] = json_mth.mth_name;
-		     score_array[i] = json_mth.avg_score;
+		     score_array[i] = json_mth.avg_inspections;
 			 }
 		
 			
-			var ctx = document.getElementById( "widgetChart1" );
+			var ctx = document.getElementById( "insWidgetChart" );
 	//var vOneLS = localStorage.getItem("vOneLocalStorage ");  
 	//var variableTwo = json_july; 
     
@@ -47,7 +47,7 @@ $.ajax({
             type: 'line',
             datasets: [ {
                 data: score_array,
-                label: 'Score',
+                label: 'Inspections',
                 backgroundColor: 'transparent',
                 borderColor: 'rgba(255,255,255,.55)',
             }, ]
@@ -96,7 +96,7 @@ $.ajax({
 			//localStorage.setItem("vOneLocalStorage", JSON.stringify(json_mth.mth_name)); 
 		}
 	});
-    //WidgetChart 1
+    //WidgetChart 
 	
 
     

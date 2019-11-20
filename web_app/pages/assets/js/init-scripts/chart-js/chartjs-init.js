@@ -6,7 +6,7 @@ var cnt_array = [];
 var backcolor = [];
 var hoverbackcolor = [];
 $.ajax({
-		url:'api/owner_pie_violations/'+o_id+'/',
+		url:'api/inspector_pie/'+emp_id+'/',
 		type:'GET',
 		dataType:'json',
 		success:(data) => {
@@ -18,10 +18,10 @@ $.ajax({
 			 for(i = 0; i < data.length; i++)
 			 {
 			 json_mth = JSON.parse(JSON.stringify(data[i]));
-			 f_array[i] = json_mth.f_name;
-		     cnt_array[i] = json_mth.v_cnt;
+			 f_array[i] = json_mth.v_desc;
+		     cnt_array[i] = json_mth.f_cnt;
 			 j=j+0.1;
-			 k=k+5;
+			 k=k+1;
 			 backcolor[i] = "rgba(0, "+k+", 255,"+j+")";
 			 hoverbackcolor[i] = "rgba(0, 255, 255,100)";
 			 }
