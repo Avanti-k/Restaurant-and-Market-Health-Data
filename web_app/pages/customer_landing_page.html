@@ -34,6 +34,14 @@
       border: 3px solid #000000;
     }
     </script>
+    <style>
+
+    table, th, td {
+  border: 1px solid white;
+  padding: 5px;
+}
+
+    </style>
 </head>
 
 <body>
@@ -84,7 +92,7 @@ $(document).ready(() => {
 				console.log(json_fid);
 				console.log("Json Fid = " + json_fid.FACILITY_ID);*/
 				//html += "<div><tr><td>" + json_fid.FACILITY_ID + "</td><td>" + json_fid.NAME + "</td></tr></div>";
-        html += "<div id ='mkt-tbl-tr"+i+"'><tr><td>" + json_fid.FACILITY_ID + "</td><td>" + json_fid.NAME + "</td></tr></div>";
+        html += "<div id ='mkt-tbl-tr"+i+"'><tr><td>" + json_fid.NAME + "</td></tr></div>";
 
 
 			 }
@@ -123,7 +131,7 @@ $(document).ready(() => {
 				/*console.log("here");
 				console.log(json_fid);
 				console.log("Json Fid = " + json_fid.FACILITY_ID);*/
-				html += "<div id ='rest-tbl-tr"+i+"'><tr><td>" + json_fid.FACILITY_ID + "</td><td>" + json_fid.NAME + "</td></tr></div>";
+				html += "<div id ='rest-tbl-tr"+i+"'><tr><td>" + json_fid.NAME + "</td></tr></div>";
 
 			 }
 			 $('#top_rest_list').append(html);
@@ -145,7 +153,7 @@ function renderNBMegaTable(event)
    console.log(val);
   console.log("Clicked valuename = " + val.NAME);
   var html_str = "<font color='white'><th>Name</th><th> Address </th><th> Grade </th><th> Score </th></font>";
-  html_str += "<div><tr><td>"+ val.STREET+"</td><td>"+ val.CITY + "</td><td>" + val.ZIP + "</td><td>" + val.ADDRESS_ID + "</td></tr>";
+  html_str += "<div><tr><td> "+ val.STREET+"</td><td>"+ val.CITY + "</td><td>" + val.ZIP + "</td><td>" + val.ADDRESS_ID + "</td></tr>";
   $("#mega_table").html(html_str);
 
 }
@@ -224,7 +232,7 @@ $(document).ready(() => {
 				console.log(json_fid);
 				console.log("Json Address id = " + json_fid.ADDRESS_ID);
 				//html += "<div id ='nb-tbl-tr"+i+"'><tr><td>" + json_fid.STREET + "</td><td>" + json_fid.ZIP + "</td></tr></div>";
-        html += "<div id ='nb-tbl-tr"+i+"'><tr><td>" + json_fid.STREET + "</td></tr></div>";
+        html += "<div id ='nb-tbl-tr"+i+"'><tr><td> " + json_fid.STREET + "</td></tr></div>";
 
 
 			 }
@@ -239,18 +247,11 @@ $(document).ready(() => {
 
 
 
-/*
-$(document).ready(() => {
-	$.ajax({
-		url:'api/avg_owner_violation/'+o_id+'/',
-		type:'GET',
-		dataType:'json',
-		success:(data) => {
-			$('#count_avg_owner_violations').html(JSON.stringify(data.avg_cnt));
-		}
-	});
-});
 
+$(document).ready(() => {
+	document.getElementById("#mega_table_div").style.width = "auto";
+});
+/*
 $(document).ready(() => {
 	$.ajax({
 		url:'api/owner_critical_violation/'+o_id+'/',
@@ -390,14 +391,14 @@ $(document).ready(() => {
 
 
         <div class="content mt-3">
-             <div class="col-sm-6 col-lg-3">
+             <div class="col-sm-6 col-lg-3" style="width: auto;max-width: 500px">
                 <div class="card text-white bg-flat-color-1">
                     <div class="card-body pb-0">
 					 <class="mb-0">
 						<h4>Top 3 Food Markets</h4>
-						<table id="top_mkt_list">
+						<table id="top_mkt_list" style="border-spacing: 55px; margin-left:auto;margin-right:auto;">
 							<font color="white">
-							<th>ID</th>
+
 							<th> NAME </th>
 							</font>
                         </table>
@@ -407,15 +408,15 @@ $(document).ready(() => {
             </div>
             <!--/.col-->
 
-            <div class="col-sm-6 col-lg-3">
+            <div class="col-sm-6 col-lg-3" style="width: auto;max-width: 500px">
                 <div class="card text-white bg-flat-color-4">
                     <div class="card-body pb-0">
 
                         <h4 class="mb-0">
 						<h4>Top 3 Restaurants</h4>
-						<table id="top_rest_list">
+						<table id="top_rest_list" style="border-spacing: 55px; margin-left:auto;margin-right:auto;">
 							<font color="white">
-							<th>ID</th>
+
 							<th> NAME </th>
 							</font>
                         </table>
@@ -427,12 +428,12 @@ $(document).ready(() => {
             <!--/.col-->
 
 
-            <div class="col-sm-6 col-lg-3">
-                <div class="card text-white bg-flat-color-1">
+            <div class="col-sm-6 col-lg-3" style="width: auto;max-width: 500px">
+                <div class="card text-white bg-flat-color-1" >
                     <div class="card-body pb-0">
 					 <h4 class="mb-0">
 						<h4>Top 3 Neighbourhoods</h4>
-							<table id="top_nb_list">
+							<table id="top_nb_list" style="border-spacing: 55px; margin-left:auto;margin-right:auto;">
 								<font color="white">
 									<th>STREET</th>
 								</font>
@@ -452,13 +453,13 @@ $(document).ready(() => {
     </div><!-- /#right-panel -->
 
     <!-- Right Panel -->
-<div>
-  <div class="col-sm-6 col-lg-3">
+<div id = "mega_table_div">
+  <div class="col-sm-6 col-lg-3" style="width: auto;max-width: 500px;margin-left:250px;margin-right:auto">
       <div class="card text-white bg-flat-color-5">
           <div class="card-body pb-0">
       <h4 class="mb-0">
-      <h4>Mega table</h4>
-        <table id="mega_table">
+      <h4>Result table</h4>
+        <table id="mega_table" style="border-spacing: 55px; margin-left:auto;margin-right:auto;" >
 
         </table>
     </h4>
