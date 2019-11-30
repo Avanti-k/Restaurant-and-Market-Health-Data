@@ -9,7 +9,7 @@
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>Owner Dashboard</title>
+    <title>Facility</title>
     <meta name="description" content="Owner Name">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
@@ -33,17 +33,23 @@
 <script src="jquery.min.js"></script>
 
 <script type="text/javascript">
-
 var o_id = "OW0001414";
+var s;
+var f_id ;
+s = window.location.search.split("=")
+f_id=s[1];
+//var f_id = "FA0004496";
 var href;
 $(document).ready(() => {
+
+
 	$.ajax({
-		url:'api/owners/'+o_id+'/',
+		url:'api/facility_score/'+f_id+'/',
 		type:'GET',
 		dataType:'json',
 		success:(data) => {
 			
-			$('#count_avg_owners').html(JSON.stringify(data.avg_cnt));
+			$('#score_facility').html(JSON.stringify(data.avg_cnt));
 			if(data.avg_cnt>=90)
 			{
 			var grade = "A";
@@ -55,51 +61,62 @@ $(document).ready(() => {
 			{
 			var grade = "C";
 			}
-			$('#owner_grade').html(grade);
+			$('#facility_grade').html(grade);
 		}
 	});
 });
 
 $(document).ready(() => {
 	$.ajax({
-		url:'api/owner_rank/'+o_id+'/',
+		url:'api/facility_rank/'+f_id+'/',
 		type:'GET',
 		dataType:'json',
 		success:(data) => {
-			$('#owner_rank').html(JSON.stringify(data.rank)+'/'+JSON.stringify(data.total));
+			$('#facility_rank').html(JSON.stringify(data.rank)+'/'+JSON.stringify(data.total));
 		}
 	});
 });
 
 $(document).ready(() => {
 	$.ajax({
-		url:'api/avg_owner_violation/'+o_id+'/',
+		url:'api/facility_total_violations/'+f_id+'/',
 		type:'GET',
 		dataType:'json',
 		success:(data) => {
-			$('#count_avg_owner_violations').html(JSON.stringify(data.avg_cnt));
+			$('#total_facility_violations').html(JSON.stringify(data.vio_cnt));
+		}
+	});
+	
+	$.ajax({
+		url:'api/facility_crt_violation/'+f_id+'/',
+		type:'GET',
+		dataType:'json',
+		success:(data) => {
+			$('#facility_crt_violation').html(data.vio);
+		}
+	});
+	
+});
+
+$(document).ready(() => {
+	$.ajax({
+		url:'api/facility_critical_violation/'+f_id+'/',
+		type:'GET',
+		dataType:'json',
+		success:(data) => {
+			$('#count_facility_crt_violations').html(JSON.stringify(data.crt_cnt));
 		}
 	});
 });
 
 $(document).ready(() => {
 	$.ajax({
-		url:'api/owner_critical_violation/'+o_id+'/',
+		url:'api/facility_attr/'+f_id+'/',
 		type:'GET',
 		dataType:'json',
 		success:(data) => {
-			$('#count_owner_crt_violations').html(JSON.stringify(data.crt_cnt));
-		}
-	});
-});
-
-$(document).ready(() => {
-	$.ajax({
-		url:'api/owner_attr/'+o_id+'/',
-		type:'GET',
-		dataType:'json',
-		success:(data) => {
-			$('#owner_name').html(data.o_name);
+			$('#facility_name').html(data.f_name);
+			$('#facility_addr').html(data.street+','+data.city+'\n'+data.st+'\n'+data.zip);
 		}
 	});
 });
@@ -108,21 +125,21 @@ $(document).ready(() => {
 
 					$(document).ready(() => {
 	$.ajax({
-		url:'api/owner_facility_list/'+o_id+'/',
+		url:'api/facility_violation_list/'+f_id+'/',
 		type:'GET',
 		dataType:'json',
 		success:(data) => {
 		var i;
 		var json_mth;
 		var qtr_array=[];
-$("facility_list").append("<ul></ul>");		
+$("facility_violation_list").append("<ul></ul>");		
 			 for(i = 0; i < data.length; i++)
 			 {
 			  json_mth = JSON.parse(JSON.stringify(data[i]));
 			 
-			 qtr_array[i] = json_mth.f_name;
-			 var li = "<font color='white'><li class='facility'  ><a class='facility' name ='facility' id='facility' at='hello' href='/facility_analysis_page.html?id="+json_mth.f_id+"'  value='"+json_mth.f_name+"'   >";
-    $("ul").append((li.concat(qtr_array[i])).concat("</a></li></font>"))
+			 qtr_array[i] = json_mth.vio;
+			 var li = "<font color='white'><li><a id='facility' href='#' value='"+qtr_array[i]+"'  >";
+    $("ul").append(li.concat(qtr_array[i]))
 			 
 
 			 
@@ -130,23 +147,18 @@ $("facility_list").append("<ul></ul>");
 			
 		}
 	});
-	
 });
-
-
 
 $(document).ready(() => {
 	$.ajax({
-		url:'api/owner_total_inspections/'+o_id+'/',
+		url:'api/facility_total_inspections/'+f_id+'/',
 		type:'GET',
 		dataType:'json',
 		success:(data) => {
-			$('#total_inspections').html(data.total_inspections);
+			$('#total_inspections').html(data.cnt);
 		}
 	});
 });
-
-
 </script>
 
 
@@ -163,9 +175,10 @@ $(document).ready(() => {
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#main-menu" aria-controls="main-menu" aria-expanded="false" aria-label="Toggle navigation">
                     <i class="fa fa-bars"></i>
                 </button>
-				<br><br><br><br><br>
-               <a href="#"><font color="white"><div id="owner_name"> Owner Name</div></font></a>
-			   
+				<br>
+               <a href="#"><font color="white"><div id="facility_name"> Facility Name</div></font></a>
+			   <br>
+			   <a href="#"><font color="white"><div id="facility_addr"> Address</div></font></a>
             </div>
 
             <div id="main-menu" class="main-menu collapse navbar-collapse">
@@ -178,10 +191,10 @@ $(document).ready(() => {
                    
 
                     </li>
-                    <h3 class="menu-title">Facilities</h3><!-- /.menu-title -->
+                    <h3 class="menu-title">Violations</h3><!-- /.menu-title -->
                     <li class="menu-item-has-children dropdown">
 					<font color="white">
-					<div id="facility_list">
+					<div id="facility_violation_list">
 					</div></font>
                         
                         
@@ -238,13 +251,13 @@ $(document).ready(() => {
                 <div class="card text-white bg-flat-color-1">
                     <div class="card-body pb-0">
 					 <h4 class="mb-0">
-                        <div id="count_avg_owners">
+                        <div id="score_facility">
                        
                             <span  class="count"></span>
                         
 						</div>
 						</h4>
-                        <p class="text-light">Average Score</p>
+                        <p class="text-light">Score</p>
 
                         <div class="chart-wrapper px-0" style="height:80px;" height="80">
        
@@ -262,7 +275,7 @@ $(document).ready(() => {
                     <div class="card-body pb-0">
                         
                         <h4 class="mb-0">
-						<div id="owner_rank">
+						<div id="facility_rank">
                             <span class="count"></span>
 							</div>
                         </h4>
@@ -282,11 +295,11 @@ $(document).ready(() => {
                     <div class="card-body pb-0">
                         
                         <h4 class="mb-0">
-						<div id="count_avg_owner_violations">
+						<div id="total_facility_violations">
                             <span class="count"></span>
 							</div>
                         </h4>
-                        <p class="text-light">Violations per quarter</p>
+                        <p class="text-light">Total violations</p>
 
                     </div>
 
@@ -302,14 +315,18 @@ $(document).ready(() => {
                     <div class="card-body pb-0">
                         
                         <h4 class="mb-0">
-						<div id="count_owner_crt_violations">
+						<div id="count_facility_crt_violations">
                             <span class="count"></span>
 							</div>
                         </h4>
-                        <p class="text-light">Total Critical violations</p>
+                        <p class="text-light">Critical Violations</p>
 
                         <div class="chart-wrapper px-3" style="height:80px;" height="80">
-                            <canvas id="widgetChart4"></canvas>
+                            <h6 class="mb-0">
+						<div id="facility_crt_violation">
+                            <span class="count"></span>
+							</div>
+                        </h6>
                         </div>
 
                     </div>
@@ -350,7 +367,7 @@ $(document).ready(() => {
                         </div>
                         <!--/.row-->
                         <div class="chart-wrapper mt-4">
-                            <canvas id="trafficChart" style="height:200px;" height="200"></canvas>
+                            <canvas id="facility_chart" style="height:200px;" height="200"></canvas>
                         </div>
 
                     </div>
@@ -382,7 +399,7 @@ $(document).ready(() => {
                             <div class="stat-icon dib"><i class="ti-user text-primary border-primary"></i></div>
                             <div class="stat-content dib">
                                 <div class="stat-text">Grade</div>
-                                <div class="stat-digit" id="owner_grade">-</div>
+                                <div class="stat-digit" id="facility_grade">-</div>
                             </div>
                         </div>
                     </div>
@@ -396,7 +413,7 @@ $(document).ready(() => {
 			<div class="col-lg-6">
                         <div class="card">
 						<div class="card-header">
-                        <h4>Facilities violation count</h4>
+                        <h4>Violation Frequency</h4>
                     </div>
                             <div class="card-body" style="height: 286px;">
                                 <!<h4 class="mb-3"><!Pie Chart </h4>
@@ -422,12 +439,12 @@ $(document).ready(() => {
 
 	
     <script src="vendors/chart.js/dist/Chart.bundle.min.js"></script>
-	<script src="assets/js/init-scripts/chart-js/chartjs-init.js"></script>
-    <script src="assets/js/dashboard.js"></script>
-	<script src="assets/js/test.js"></script>
-	<script src="assets/js/owner_widget_chart1.js"></script>
-	<script src="assets/js/owner_widget_chart2.js"></script>
-	<script src="assets/js/owner_widget_chart3.js"></script>
+	<script src="assets/js/facility_dashboard_pie.js"></script>
+    <script src="assets/js/facility_dashboard.js"></script>
+
+	<script src="assets/js/facility_widget_chart1.js"></script>
+	<script src="assets/js/facility_widget_chart2.js"></script>
+	<script src="assets/js/facility_widget_chart3.js"></script>
 	<script src="assets/js/owner_widget_chart4.js"></script>
     <!<script src="assets/js/widgets.js"><!</script>
     <script src="vendors/jqvmap/dist/jquery.vmap.min.js"></script>
