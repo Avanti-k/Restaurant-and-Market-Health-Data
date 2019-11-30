@@ -18,7 +18,7 @@ var score_array = [];
     });
 	
 $.ajax({
-		url:'api/avg_owner_score_graph/'+o_id+'/',
+		url:'api/ins_other_total_graph/'+emp_id+'/',
 		type:'GET',
 		dataType:'json',
 		success:(data) => {
@@ -34,7 +34,7 @@ $.ajax({
 			 }
 		
 			
-			var ctx = document.getElementById( "widgetChart1" );
+			var ctx = document.getElementById( "insWidgetChart3" );
 	//var vOneLS = localStorage.getItem("vOneLocalStorage ");  
 	//var variableTwo = json_july; 
     
@@ -96,7 +96,7 @@ $.ajax({
 			//localStorage.setItem("vOneLocalStorage", JSON.stringify(json_mth.mth_name)); 
 		}
 	});
-    //WidgetChart 1
+    //WidgetChart 2
 	
 
     

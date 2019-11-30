@@ -20,11 +20,10 @@ function convertHex (hex, opacity) {
 function random (min, max) {
   return Math.floor(Math.random() * (max - min + 1) + min)
 }
-
-
 var qtr_array = [];
 var own_avg_array = [];
 var all_own_avg_array = [];
+
 
 $(document).ready(function(){
 	
@@ -33,7 +32,7 @@ $(document).ready(function(){
 	$.ajax({
 	
 
-		url:'api/risk_vs_score/'+emp_id+'/',
+		url:'api/owner_main_avg_graph/'+emp_id+'/',
 		type:'GET',
 		dataType:'json',
 		success:(data) => {
@@ -60,7 +59,7 @@ $(document).ready(function(){
             labels: qtr_array,
             datasets: [
             {
-              label: 'Avg score of Facilities: Inspector',
+              label: 'Score of each Facility : Self',
               backgroundColor: convertHex(brandInfo, 10),
               borderColor: brandInfo,
               pointHoverBackgroundColor: '#fff',
@@ -68,7 +67,7 @@ $(document).ready(function(){
               data: own_avg_array
           },
           {
-              label: 'Avg score of Facilities: Other Inspector',
+              label: 'Score of each Facility : Competitors',
               backgroundColor: 'transparent',
               borderColor: brandSuccess,
               pointHoverBackgroundColor: '#fff',
@@ -138,6 +137,22 @@ $(document).ready(function(){
 	}
 	
 	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
     $('input[name=options]').on('change', function(){
     var n = $(this).val();
     switch(n)
@@ -146,7 +161,7 @@ $(document).ready(function(){
 $.ajax({
 	
 
-		url:'api/risk_vs_score/'+emp_id+'/',
+		url:'api/owner_main_avg_graph/'+emp_id+'/',
 		type:'GET',
 		dataType:'json',
 		success:(data) => {
@@ -173,7 +188,7 @@ $.ajax({
             labels: qtr_array,
             datasets: [
             {
-              label: 'Avg score of Facilities: Inspector',
+              label: 'Score of each Facility : Self',
               backgroundColor: convertHex(brandInfo, 10),
               borderColor: brandInfo,
               pointHoverBackgroundColor: '#fff',
@@ -181,7 +196,115 @@ $.ajax({
               data: own_avg_array
           },
           {
-              label: 'Avg score of Facilities: Other Inspector',
+              label: 'Score of each Facility : Competitors',
+              backgroundColor: 'transparent',
+              borderColor: brandSuccess,
+              pointHoverBackgroundColor: '#fff',
+              borderWidth: 2,
+              data: all_own_avg_array
+          },
+          
+          ]
+        },
+        options: {
+            //   maintainAspectRatio: true,
+            //   legend: {
+            //     display: false
+            // },
+            // scales: {
+            //     xAxes: [{
+            //       display: false,
+            //       categoryPercentage: 1,
+            //       barPercentage: 0.5
+            //     }],
+            //     yAxes: [ {
+            //         display: false
+            //     } ]
+            // }
+
+
+            maintainAspectRatio: true,
+            legend: {
+                display: true
+            },
+            responsive: true,
+            scales: {
+                xAxes: [{
+                  gridLines: {
+                    drawOnChartArea: false
+                  }
+                }],
+                yAxes: [ {
+                      ticks: {
+                        beginAtZero: false,
+                        maxTicksLimit: 5,
+                        stepSize: Math.ceil(50 / 5),
+                        max: 100,
+						min: 50
+                      },
+                      gridLines: {
+                        display: true
+                      }
+                } ]
+            },
+            elements: {
+                point: {
+                  radius: 0,
+                  hitRadius: 10,
+                  hoverRadius: 4,
+                  hoverBorderWidth: 3
+              }
+          }
+
+
+        }
+    } );
+			
+		}
+});
+break;
+
+
+case 'option3':
+$.ajax({
+	
+
+		url:'api/owner_main_avg_graph/'+emp_id+'/',
+		type:'GET',
+		dataType:'json',
+		success:(data) => {
+			
+			  var json_mth
+			 
+			 var i;
+			
+			 for(i = 0; i < data.length; i++)
+			 {
+			 json_mth = JSON.parse(JSON.stringify(data[i]));
+			 qtr_array[i] = json_mth.qtr;
+		     own_avg_array[i] = json_mth.own_avg;
+			 all_own_avg_array[i] = json_mth.all_avg;
+			 }
+			
+			
+    //Traffic Chart
+    var ctx = document.getElementById( "trafficChart" );
+    //ctx.height = 200;
+    var myChart = new Chart( ctx, {
+        type: 'line',
+        data: {
+            labels: qtr_array,
+            datasets: [
+            {
+              label: 'Self',
+              backgroundColor: convertHex(brandInfo, 10),
+              borderColor: brandInfo,
+              pointHoverBackgroundColor: '#fff',
+              borderWidth: 2,
+              data: own_avg_array
+          },
+          {
+              label: 'Other Owners',
               backgroundColor: 'transparent',
               borderColor: brandSuccess,
               pointHoverBackgroundColor: '#fff',
@@ -254,7 +377,7 @@ case 'option2':
 $.ajax({
 	
 
-		url:'api/seats_vs_violations/'+emp_id+'/',
+		url:'api/owner_main_violation_graph/'+emp_id+'/',
 		type:'GET',
 		dataType:'json',
 		success:(data) => {
@@ -281,7 +404,7 @@ $.ajax({
             labels: qtr_array,
             datasets: [
             {
-              label: 'Violations at each Facility : Inspector',
+              label: 'Violations at each Facility : Self',
               backgroundColor: convertHex(brandInfo, 10),
               borderColor: brandInfo,
               pointHoverBackgroundColor: '#fff',
@@ -289,12 +412,12 @@ $.ajax({
               data: own_avg_array
           },
           {
-              label: 'Violations at each Facility : Other Inspector',
+              label: 'Violations at each Facility : Competitors',
               backgroundColor: 'transparent',
               borderColor: brandSuccess,
               pointHoverBackgroundColor: '#fff',
               borderWidth: 2,
-              data: own_avg_array
+              data: all_own_avg_array
           },
           
           ]
@@ -361,7 +484,7 @@ default:
 $.ajax({
 	
 
-		url:'api/risk_vs_score/'+emp_id+'/',
+		url:'api/owner_main_avg_graph/'+emp_id+'/',
 		type:'GET',
 		dataType:'json',
 		success:(data) => {
@@ -388,7 +511,7 @@ $.ajax({
             labels: qtr_array,
             datasets: [
             {
-              label: 'Avg score of Facilities: Inspector',
+              label: 'Self',
               backgroundColor: convertHex(brandInfo, 10),
               borderColor: brandInfo,
               pointHoverBackgroundColor: '#fff',
@@ -396,7 +519,7 @@ $.ajax({
               data: own_avg_array
           },
           {
-              label: 'Avg score of Facilities: Other Inspector',
+              label: 'Other Owners',
               backgroundColor: 'transparent',
               borderColor: brandSuccess,
               pointHoverBackgroundColor: '#fff',

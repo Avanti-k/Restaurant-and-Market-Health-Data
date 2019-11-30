@@ -27,15 +27,11 @@ const ins_other_total_graph = require('../controllers/ins_other_total_graph.js')
 
 const ins_grade_graph = require('../controllers/ins_grade_graph.js');
 
-const risk_vs_score = require('../controllers/risk_vs_score.js'); //new traffic chart by nt
+const risk_vs_score = require('../controllers/risk_vs_score.js');
 
-const seats_vs_violations = require('../controllers/seats_vs_violations.js'); //new traffic chart by nt
+const seats_vs_violations = require('../controllers/seats_vs_violations.js');
 
-const facility_vs_risk = require('../controllers/facility_vs_risk.js'); //new bar chart by nt
-
-const owner_main_violation_graph = require('../controllers/owner_main_violation_graph.js'); 
-
-const owner_main_avg_graph = require('../controllers/owner_main_avg_graph.js'); 
+const facility_vs_risk = require('../controllers/facility_vs_risk.js');
 
 //Make Changes 
 
@@ -63,18 +59,11 @@ router.route('/ins_other_total_graph/:emp_id?').get(ins_other_total_graph.get);
 
 router.route('/ins_grade_graph/:emp_id?').get(ins_grade_graph.get);
 
-router.route('/risk_vs_score/:emp_id?').get(risk_vs_score.get); //new traffic chart by nt
+router.route('/risk_vs_score/:emp_id?').get(risk_vs_score.get);
 
-router.route('/seats_vs_violations/:emp_id?').get(seats_vs_violations.get); //new traffic chart by nt
+router.route('/seats_vs_violations/:emp_id?').get(seats_vs_violations.get);
 
-router.route('/facility_vs_risk/:emp_id?').get(facility_vs_risk.get); //new bar chart by nt
-
-router.route('/owner_main_avg_graph/:o_id?')
-  .get(owner_main_avg_graph.get);
-  
-router.route('/owner_main_violation_graph/:o_id?')
-  .get(owner_main_violation_graph.get);  
- 
+router.route('/facility_vs_risk/:emp_id?').get(facility_vs_risk.get);
  
  //End Changes
 module.exports = router;
